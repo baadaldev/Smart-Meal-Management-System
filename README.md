@@ -17,7 +17,7 @@ Open `index.html` and it runs — or host it for free on GitHub Pages.
 
 Most university hostels/mess halls in Bangladesh (and elsewhere) still track daily meals, grocery spend, and who-owes-what on a paper register or a shared spreadsheet. It's slow, error-prone, and nobody trusts the math at month-end.
 
-**Smart Meal Management System** replaces that register with a small web app that:
+**Smart Meal Management System For Students** replaces that register with a small web app that:
 
 - Lets a manager log each member's daily meal count
 - Tracks grocery ("bazar") spending
