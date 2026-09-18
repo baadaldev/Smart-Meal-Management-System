@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Smart Meal Management System</title>
+<meta name="description" content="A hostel/mess meal, bazar, and expense tracker for shared living." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div class="auth-shell">
+
+  <div class="auth-hero">
+    <div class="brand"><span class="dot"></span> Smart Meal Management</div>
+
+    <div>
+      <h1>Run your hostel mess without the spreadsheet chaos.</h1>
+      <p>Track daily meals, grocery (bazar) spending, deposits, and who owes what — automatically, for every member of the mess.</p>
+    </div>
+
+    <div class="hero-stats">
+      <div><strong>21</strong><span>days of demo data</span></div>
+      <div><strong>5</strong><span>demo members</span></div>
+      <div><strong>0</strong><span>backend required</span></div>
+    </div>
+  </div>
+
+  <div class="auth-panel">
+    <div class="auth-card">
+      <div class="tab-row">
+        <button class="tab-btn active" data-tab="admin" id="tabAdminBtn">Manager Login</button>
+        <button class="tab-btn" data-tab="member" id="tabMemberBtn">Member Login</button>
+      </div>
+
+      <div id="adminTab">
+        <h2>Manager sign in</h2>
+        <p>Full access to members, bazar, deposits, and reports.</p>
+        <form id="adminForm">
+          <div class="field">
+            <label for="adminPass">Manager password</label>
+            <input type="password" id="adminPass" placeholder="Enter password" required />
+          </div>
+          <button class="btn btn-primary" type="submit">Continue as Manager</button>
+        </form>
+        <p class="hint">Demo password: <code>admin123</code></p>
+      </div>
+
+      <div id="memberTab" style="display:none;">
+        <h2>Member sign in</h2>
+        <p>View your own meals, balance, and mess notices.</p>
+        <form id="memberForm">
+          <div class="field">
+            <label for="memberSelect">Select your name</label>
+            <select id="memberSelect" required></select>
+          </div>
+          <button class="btn btn-primary" type="submit">Continue as Member</button>
+        </form>
+        <p class="hint">No password needed in this demo — a real deployment would add one.</p>
+      </div>
+
+      <p class="hint" style="margin-top:22px;">
+        <button class="btn btn-ghost" id="resetDemoBtn" type="button" style="width:100%;">Reset demo data</button>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<div id="toastWrap"></div>
+
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/auth.js"></script>
+</body>
+</html>

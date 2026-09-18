@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard · Smart Meal Management System</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ============================================================ SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><span class="dot"></span> Meal Manager</div>
+
+    <nav class="nav-group">
+      <button class="nav-item" data-section="overview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Overview
+      </button>
+      <button class="nav-item" data-section="members" id="navMembers">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="8.5" r="2.6"/><path d="M16 14.3c2.7.4 4.5 2.4 4.5 5.5"/></svg>
+        Members
+      </button>
+      <button class="nav-item" data-section="meals">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v7a2 2 0 0 0 2 2v9M6 3v9M9 3v9M15 3c-1.4 0-2.5 1.7-2.5 5s1.1 5 2.5 5v9"/></svg>
+        Meals
+      </button>
+      <button class="nav-item" data-section="bazar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18l-1.6 10.2a2 2 0 0 1-2 1.8H6.6a2 2 0 0 1-2-1.8L3 6Z"/><path d="M8 6V5a4 4 0 0 1 8 0v1"/></svg>
+        Bazar
+      </button>
+      <button class="nav-item" data-section="deposits">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19M6 15h4"/></svg>
+        Deposits
+      </button>
+      <button class="nav-item" data-section="reports">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V9M11 19V4M18 19v-7"/></svg>
+        Reports
+      </button>
+      <button class="nav-item" data-section="notices">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8a7 7 0 0 1 14 0c0 5 2 6 2 7H3c0-1 2-2 2-7Z"/><path d="M9.5 19a2.5 2.5 0 0 0 5 0"/></svg>
+        Notices
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="avatar" id="userAvatar">?</div>
+        <div class="who">
+          <strong id="userName">—</strong>
+          <span id="userRole">—</span>
+        </div>
+      </div>
+      <button class="btn btn-ghost" id="logoutBtn" style="width:100%;">Log out</button>
+    </div>
+  </aside>
+
+  <!-- ============================================================== MAIN -->
+  <main class="main">
+
+    <div class="topbar">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+        <div>
+          <h1 id="pageTitle">Overview</h1>
+          <p id="pageSub">Today is <span id="todayLabel"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------- OVERVIEW -->
+    <section class="section active" id="section-overview">
+      <div class="stat-grid" id="overviewStats"></div>
+
+      <div class="panel-grid-2">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Meals eaten — last 14 days</h3>
+          </div>
+          <div class="chart-box"><canvas id="mealsChart"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Latest notices</h3>
+          </div>
+          <div id="overviewNotices"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- -------------------------------------------------------- MEMBERS -->
+    <section class="section" id="section-members">
+      <div class="panel" id="memberFormPanel">
+        <div class="panel-head"><h3>Add a member</h3></div>
+        <form id="memberForm">
+          <div class="form-row">
+            <div class="field"><label>Full name</label><input type="text" id="mName" required /></div>
+            <div class="field"><label>Room</label><input type="text" id="mRoom" required /></div>
+            <div class="field"><label>Phone</label><input type="text" id="mPhone" /></div>
+            <div class="field"><label>Joined date</label><input type="date" id="mJoined" required /></div>
+          </div>
+          <button class="btn btn-primary" type="submit" style="width:auto; padding-left:28px; padding-right:28px;">Add member</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h3>All members</h3></div>
+        <div class="table-scroll">
+          <table id="membersTable">
+            <thead><tr><th>Name</th><th>Room</th><th>Phone</th><th>Joined</th><th class="num">Actions</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- MEALS -->
+    <section class="section" id="section-meals">
+      <div class="panel" id="mealEntryPanel">
+        <div class="panel-head">
+          <h3>Set meal count</h3>
+          <div class="field" style="margin:0; min-width:170px;">
+            <input type="date" id="mealDate" />
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table id="mealEntryTable">
+            <thead><tr><th>Member</th><th class="num">Meal count</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <button class="btn btn-primary" id="saveMealsBtn" style="width:auto; padding-left:28px; padding-right:28px; margin-top:14px;">Save meal counts</button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h3 id="mealHistoryTitle">Meal history</h3></div>
+        <div class="table-scroll">
+          <table id="mealHistoryTable">
+            <thead><tr><th>Date</th><th>Member</th><th class="num">Count</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- BAZAR -->
+    <section class="section" id="section-bazar">
+      <div class="panel" id="bazarFormPanel">
+        <div class="panel-head"><h3>Record a bazar (grocery) expense</h3></div>
+        <form id="bazarForm">
+          <div class="form-row">
+            <div class="field"><label>Date</label><input type="date" id="bDate" required /></div>
+            <div class="field"><label>Item</label><input type="text" id="bItem" placeholder="e.g. Rice, vegetables" required /></div>
+            <div class="field"><label>Amount</label><input type="number" id="bAmount" min="0" step="0.01" required /></div>
+            <div class="field"><label>Bought by</label><select id="bBuyer" required></select></div>
+          </div>
+          <div class="field"><label>Note (optional)</label><input type="text" id="bNote" /></div>
+          <button class="btn btn-primary" type="submit" style="width:auto; padding-left:28px; padding-right:28px;">Add expense</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Bazar history</h3>
+          <span class="pill pill-green" id="bazarTotalPill"></span>
+        </div>
+        <div class="table-scroll">
+          <table id="bazarTable">
+            <thead><tr><th>Date</th><th>Item</th><th>Bought by</th><th class="num">Amount</th><th class="num">Actions</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- -------------------------------------------------------- DEPOSITS -->
+    <section class="section" id="section-deposits">
+      <div class="panel" id="depositFormPanel">
+        <div class="panel-head"><h3>Record a deposit</h3></div>
+        <form id="depositForm">
+          <div class="form-row">
+            <div class="field"><label>Member</label><select id="dMember" required></select></div>
+            <div class="field"><label>Date</label><input type="date" id="dDate" required /></div>
+            <div class="field"><label>Amount</label><input type="number" id="dAmount" min="0" step="0.01" required /></div>
+          </div>
+          <div class="field"><label>Note (optional)</label><input type="text" id="dNote" /></div>
+          <button class="btn btn-primary" type="submit" style="width:auto; padding-left:28px; padding-right:28px;">Add deposit</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h3 id="depositHistoryTitle">Deposit history</h3>
+          <span class="pill pill-green" id="depositTotalPill"></span>
+        </div>
+        <div class="table-scroll">
+          <table id="depositsTable">
+            <thead><tr><th>Date</th><th>Member</th><th>Note</th><th class="num">Amount</th><th class="num">Actions</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------- REPORTS -->
+    <section class="section" id="section-reports">
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Monthly summary</h3>
+          <div class="field" style="margin:0; min-width:160px;"><input type="month" id="reportMonth" /></div>
+        </div>
+        <div class="stat-grid" id="reportStats"></div>
+      </div>
+
+      <div class="panel-grid-2">
+        <div class="panel">
+          <div class="panel-head"><h3>Bazar spend — last 6 weeks</h3></div>
+          <div class="chart-box"><canvas id="bazarChart"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Meal rate breakdown</h3></div>
+          <div class="chart-box"><canvas id="rateChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Member balance sheet</h3>
+          <button class="btn btn-ghost" id="exportCsvBtn">Export CSV</button>
+        </div>
+        <div class="table-scroll">
+          <table id="ledgerTable">
+            <thead><tr><th>Member</th><th class="num">Meals</th><th class="num">Cost owed</th><th class="num">Deposited</th><th class="num">Balance</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------- NOTICES -->
+    <section class="section" id="section-notices">
+      <div class="panel" id="noticeFormPanel">
+        <div class="panel-head"><h3>Post a notice</h3></div>
+        <form id="noticeForm">
+          <div class="field"><label>Title</label><input type="text" id="nTitle" required /></div>
+          <div class="field"><label>Message</label><input type="text" id="nMessage" required /></div>
+          <button class="btn btn-primary" type="submit" style="width:auto; padding-left:28px; padding-right:28px;">Post notice</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h3>All notices</h3></div>
+        <div id="noticesList"></div>
+      </div>
+    </section>
+
+    <footer class="credit">Smart Meal Management System — built by Md Rakibul Islam</footer>
+  </main>
+</div>
+
+<div id="toastWrap"></div>
+
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/calc.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/members.js"></script>
+<script src="assets/js/meals.js"></script>
+<script src="assets/js/bazar.js"></script>
+<script src="assets/js/deposits.js"></script>
+<script src="assets/js/reports.js"></script>
+<script src="assets/js/notices.js"></script>
+</body>
+</html>
