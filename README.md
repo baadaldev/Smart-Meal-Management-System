@@ -143,3 +143,5 @@ Released under the [MIT License](LICENSE).
 Built by **[Md Rakibul Islam](https://github.com/Baadal891310)** — CSE student, Daffodil International University
 
 </div>
+### Latest Update
+Working on improving the Smart Meal Management System.
