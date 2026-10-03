@@ -102,3 +102,7 @@ flowchart TD
         D <--> H[storage.js - Storage Gateway]
         H <--> I[(Browser LocalStorage)]
     end
+
+### 📋 Prerequisites
+- Standard C compiler (GCC, Clang, or MinGW)
+- Windows Console or modern UTF-8 terminal
